@@ -1,3 +1,4 @@
+import Account from "./Account";
 import AppPage from "./AppPage";
 
-export { AppPage };
+export { Account, AppPage };
