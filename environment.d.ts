@@ -1,6 +1,9 @@
 declare global {
   namespace NodeJS {
-    interface ProcessEnv {}
+    interface ProcessEnv {
+      NEXT_PUBLIC_SUPABASE_URL;
+      NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    }
   }
 }
 

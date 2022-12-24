@@ -1,39 +1,40 @@
-import { Typography } from "@mui/material";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
+import { List, ListItem, ListItemText, Typography } from "@mui/material";
 import Head from "next/head";
 
-import { Account, AppPage } from "../components";
+import { AppPage } from "../components";
 
 export default function Home() {
-  const session = useSession();
-  const supabase = useSupabaseClient();
-
   return (
     <>
       <Head>
-        <title>Team Docs</title>
+        <title>OnBoardPro Demo</title>
       </Head>
       <AppPage>
-        <Typography variant="h1">Team Docs</Typography>
-
-        <div className="container" style={{ padding: "50px 0 100px 0" }}>
-          {!session ? (
-            <Auth
-              supabaseClient={supabase}
-              appearance={{ theme: ThemeSupa }}
-              theme="dark"
-            />
-          ) : (
-            <Account session={session} />
-          )}
-        </div>
-
-        <Typography variant="h2">Meet the Team</Typography>
-
-        <Typography variant="h2">Front End</Typography>
-
-        <Typography variant="h2">Back End</Typography>
+        <Typography variant="body1" component="p">
+          This demo is a proof-of-concept for integrating AWS Amplify, Next.js,
+          NextAuth.js, MUI, Supabase Auth, and an API Gateway. We&apos;re
+          targeting the following criteria:
+        </Typography>
+        <List>
+          <ListItem>
+            <ListItemText primary="Web hosting that supports HIPAA compliance (Amplify)" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Web hosting that provides a good-enough DX (Amplify)" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Auth that keeps the user's auth tokens out of any form of browser storage, including in-memory (NextAuth, Supabase)" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Auth that we can provide a custom UI for (MUI, NextAuth, Supabase)" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="An authentication backend that provides necessary functionality at a reasonable price with an exit strategy (Supabase)" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Authentication that can be integrated with an API gateway (Amplify, Supabase)" />
+          </ListItem>
+        </List>
       </AppPage>
     </>
   );
