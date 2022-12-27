@@ -1,5 +1,5 @@
 import { Session, User, createClient } from "@supabase/supabase-js";
-import NextAuth, { Account } from "next-auth";
+import NextAuth, { Account, AuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -17,7 +17,7 @@ const createSupabaseClient = () => {
   );
 };
 
-export default NextAuth({
+export const authOptions: AuthOptions = {
   pages: {
     signIn: "/auth/login" //,
     //signOut: '/auth/signout',
@@ -60,7 +60,6 @@ export default NextAuth({
     }) {
       // Initial sign in
       if (account && session) {
-        console.log(JSON.stringify(session, null, 2));
         return {
           accessToken: session.access_token,
           accessTokenExpires: (session.expires_at || 0) * 1000,
@@ -80,4 +79,6 @@ export default NextAuth({
   session: {
     maxAge: 900 // 15 mins
   }
-});
+};
+
+export default NextAuth(authOptions);
