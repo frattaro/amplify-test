@@ -1,11 +1,9 @@
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
-import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { SessionProvider } from "next-auth/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { useState } from "react";
 
 import { createEmotionCache, theme } from "../utils";
 
@@ -16,14 +14,16 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const [supabase] = useState(() => createBrowserSupabaseClient());
-
+export default function MyApp({
+  Component,
+  emotionCache = clientSideEmotionCache,
+  pageProps: { session, ...pageProps }
+}: MyAppProps) {
   return (
-    <SessionContextProvider
-      supabaseClient={supabase}
-      initialSession={pageProps.initialSession}
+    <SessionProvider
+      session={session}
+      refetchInterval={5 * 60}
+      refetchOnWindowFocus={true}
     >
       <CacheProvider value={emotionCache}>
         <Head>
@@ -34,6 +34,6 @@ export default function MyApp(props: MyAppProps) {
           <Component {...pageProps} />
         </ThemeProvider>
       </CacheProvider>
-    </SessionContextProvider>
+    </SessionProvider>
   );
 }

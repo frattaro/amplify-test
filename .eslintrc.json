@@ -12,6 +12,7 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "@next/next/no-img-element": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "anti-trojan-source/no-bidi": "error",
     "jsx-a11y/anchor-is-valid": "off",
     "no-console": 0,
