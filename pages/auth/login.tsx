@@ -174,8 +174,6 @@ const Login: React.FC<{ csrfToken: string }> = ({ csrfToken }) => {
                       }
                     );
 
-                    console.log(JSON.stringify(response, null, 2));
-
                     if (response.url.indexOf("error=") === -1) {
                       if (router.query.callbackUrl) {
                         window.location.href = decodeURIComponent(
