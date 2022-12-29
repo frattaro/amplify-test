@@ -1,21 +1,9 @@
-import { Session, User, createClient } from "@supabase/supabase-js";
+import { Session, User } from "@supabase/supabase-js";
 import NextAuth, { Account, AuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const createSupabaseClient = () => {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-        detectSessionInUrl: false
-      }
-    }
-  );
-};
+import { createSupabaseClient } from "../../../api-clients/createSupabaseClient";
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -27,7 +15,7 @@ export const authOptions: AuthOptions = {
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      id: "credentials-supabase-password",
       credentials: {
         username: {},
         password: {}
@@ -38,6 +26,23 @@ export const authOptions: AuthOptions = {
         const response = await client.auth.signInWithPassword({
           email: credentials?.username || "",
           password: credentials?.password || ""
+        });
+
+        return {
+          ...response.data.session
+        };
+      }
+    }),
+    CredentialsProvider({
+      id: "credentials-google-oauth",
+      credentials: {
+        refreshToken: {}
+      },
+      // @ts-ignore
+      async authorize(credentials) {
+        const client = createSupabaseClient();
+        const response = await client.auth.refreshSession({
+          refresh_token: credentials?.refreshToken || ""
         });
 
         return {
