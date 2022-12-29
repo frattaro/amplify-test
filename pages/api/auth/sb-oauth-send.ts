@@ -10,7 +10,7 @@ export default async function handler(
   const response = await client.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${process.env.NEXTAUTH_URL}/auth/receive-oauth`
+      redirectTo: `${process.env.NEXTAUTH_URL}/api/auth/sb-oauth-receive`
     }
   });
 
