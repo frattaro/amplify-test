@@ -1,5 +1,14 @@
 import { css } from "@emotion/react";
-import { Alert, Box, Button, Card, Grid, TextField } from "@mui/material";
+import { Google } from "@mui/icons-material";
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  Divider,
+  Grid,
+  TextField
+} from "@mui/material";
 import { GetServerSideProps } from "next";
 import { getCsrfToken } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -17,10 +26,12 @@ const Login: React.FC<{ csrfToken: string }> = ({ csrfToken }) => {
 
   const inputStyle = css`
     flex-grow: 1;
-    input {
+    input:-webkit-autofill {
       color: #fff !important;
       -webkit-text-fill-color: #fff !important;
       -webkit-background-clip: text !important;
+      -webkit-box-shadow: none;
+      box-shadow: none;
       background-clip: text !important;
     }
   `;
@@ -160,7 +171,7 @@ const Login: React.FC<{ csrfToken: string }> = ({ csrfToken }) => {
 
                   try {
                     const response = await fetch(
-                      `${window.location.origin}/api/auth/callback/credentials`,
+                      `${window.location.origin}/api/auth/callback/credentials-supabase-password`,
                       {
                         method: "POST",
                         headers: {
@@ -201,6 +212,33 @@ const Login: React.FC<{ csrfToken: string }> = ({ csrfToken }) => {
                 }}
               >
                 Login
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              css={css`
+                display: flex;
+                justify-content: center;
+              `}
+            >
+              <Button
+                variant="outlined"
+                onClick={async () => {
+                  const response = await fetch("/api/auth/sb-oauth-send");
+                  const url = await response.json();
+                  window.location.href = url;
+                }}
+              >
+                <Google
+                  css={css`
+                    margin-right: 5px;
+                  `}
+                />
+                Sign In With Google
               </Button>
             </Grid>
           </Grid>
